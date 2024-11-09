@@ -16,32 +16,43 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js (optional for linting and minification)
+      - name: Set up Node.js (for linting and minification)
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # No es obligatorio, pero si vas a usar herramientas como linters o minificadores
+          node-version: '18' # Usamos la versión 18 para evitar problemas de compatibilidad
 
       - name: Install dependencies
-        run: npm install -g stylelint htmlhint prettier stylelint-config-standard
+        run: |
+          npm install -g stylelint stylelint-config-standard postcss postcss-cli htmlhint prettier clean-css-cli
+
+      - name: Configure Stylelint
+        run: |
+          echo '{
+            "extends": "stylelint-config-standard",
+            "rules": {
+              "at-rule-no-unknown": [true, {
+                "ignoreAtRules": ["keyframes", "mixin", "include"]
+              }]
+            }
+          }' > .stylelintrc.json
 
       - name: Run HTML linting
-        run: htmlhint ./*.html # Valida los archivos HTML
+        run: htmlhint "**/*.html" # Valida todos los archivos HTML en el proyecto
 
       - name: Run CSS linting
-        run: stylelint "**/*.css" # Valida los archivos CSS
+        run: stylelint "**/*.css" # Valida todos los archivos CSS en el proyecto
 
       - name: Minify CSS
         run: |
-          npm install -g clean-css-cli # Instala el minificador de CSS
-          cleancss -o ./dist/styles.min.css ./styles.css # Minifica el archivo CSS
-
-      - name: Build Project (if necessary)
-        run: |
           mkdir -p ./dist
-          cp -r ./index.html ./styles.css ./dist/ # Copia los archivos a la carpeta de distribución (opcional)
+          cleancss -o ./dist/styles.min.css ./styles.css # Minifica y guarda el CSS en la carpeta de distribución
+
+      - name: Build Project (copy files to dist)
+        run: |
+          cp -r ./index.html ./dist/ # Copia el archivo HTML a la carpeta de distribución
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: html-css-build
-          path: ./dist
+          path: ./dist # Carga la carpeta dist como un artefacto del build
