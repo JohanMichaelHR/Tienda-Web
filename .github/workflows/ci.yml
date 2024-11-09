@@ -19,12 +19,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: Install dependencies
         run: |
-          npm install -g stylelint@14.0.0 htmlhint prettier
-          npm install -g stylelint-config-standard
+          npm install -g stylelint@14.0.0 stylelint-config-standard@24.0.0 htmlhint prettier
 
       - name: Format HTML
         run: prettier --write ./*.html
