@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g stylelint htmlhint prettier
+          npm install -g stylelint@14.0.0 htmlhint prettier
           npm install -g stylelint-config-standard
 
       - name: Format HTML
