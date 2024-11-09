@@ -1,0 +1,15 @@
+{
+  "extends": "htmlhint:recommended",
+  "rules": {
+    "attr-no-duplication": true,
+    "attr-value-double-quotes": true,
+    "doctype-first": true,
+    "head-script-disabled": true,
+    "id-unique": true,
+    "img-alt-require": true,
+    "space-after-closing-bracket": true,
+    "tagname-lowercase": true,
+    "title-require": true
+  }
+}
+
