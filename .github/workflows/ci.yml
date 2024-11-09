@@ -21,9 +21,8 @@ jobs:
         with:
           node-version: '16' # No es obligatorio, pero si vas a usar herramientas como linters o minificadores
 
-      - name: Install dependencies (optional)
-        run: |
-          npm install -g stylelint htmlhint # Ejemplo de herramientas de linters
+      - name: Install dependencies
+        run: npm install -g stylelint htmlhint prettier stylelint-config-standard
 
       - name: Run HTML linting
         run: htmlhint ./*.html # Valida los archivos HTML
